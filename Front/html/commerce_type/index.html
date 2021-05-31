@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <title>Comerce types</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="h1">Commerce types</div>
+        <a href="/html/commerce_type/create.html" class="btn btn-primary">Create</a>
+        <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="listCommerceTypes">
+
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        axios.get('http://127.0.0.1:8080/commerce_types')
+            .then(response => {
+                let listCommerceTypes = document.getElementById('listCommerceTypes');
+
+                response.data.data.forEach(element => {
+
+                    let row = document.createElement("tr");
+                    row.setAttribute('id', element.id)
+                    
+                    let cellId = document.createElement("td");
+                    let cellName = document.createElement("td");
+
+                    let cellEdit = document.createElement("td");
+                    let cellDelete = document.createElement("td");
+
+                    let id = document.createTextNode(element.id);
+                    let name = document.createTextNode(element.name);
+
+                    let btnEdit = document.createElement("div");
+                    btnEdit.innerHTML = `<a href="./edit.html?name=${element.name}" class="btn btn-warning">Edit</a>`
+                    let btnDelete = document.createElement("div");
+                    btnDelete.innerHTML = `<button onClick="deleteCommerceType(${element.id},'${element.name}')" class="btn btn-danger">Delete</button>`
+
+
+                    cellId.appendChild(id)
+                    cellName.appendChild(name)
+
+                    cellEdit.appendChild(btnEdit)
+                    cellDelete.appendChild(btnDelete)
+
+                    cellEdit.appendChild(btnEdit)
+                    cellDelete.appendChild(btnDelete)
+
+                    row.appendChild(cellId);
+                    row.appendChild(cellName);
+
+                    row.appendChild(cellEdit);
+                    row.appendChild(cellDelete);
+
+                    listCommerceTypes.appendChild(row)
+
+                });
+            });
+    </script>
+    <script>
+
+        function deleteCommerceType(id, name) {
+           
+            axios({
+                method: 'DELETE',
+                url: 'http://127.0.0.1:8080/commerce_type/' + name,
+            })
+                .then(response => {
+                    let row = document.getElementById(id);
+                    row.remove();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+
+    </script>
+</body>
+
+</html>

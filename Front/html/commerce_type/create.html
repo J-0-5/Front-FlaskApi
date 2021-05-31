@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <title>Create</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="h1">Create commerce type</div>
+        <form>
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name">
+                <div id="commerceHelp" class="form-text">Name of the commerce type.</div>
+            </div>
+
+            <button type="button" onclick="createCommerceType()" class="btn btn-primary">Create</button>
+        </form>
+    </div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+
+        function createCommerceType() {
+
+            let field = document.getElementById('name');
+            let name = field.value;
+
+            axios({
+                method: 'POST',
+                url: 'http://127.0.0.1:8080/commerce_type',
+                data: { "name": name }
+            })
+                .then(response => {
+                    console.log(response.data);
+                    window.location = 'http://127.0.0.1:5500/html/commerce_type/index.html'
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+    </script>
+</body>
+
+</html>
